@@ -1,3 +1,9 @@
+### Features added in this fork
+
+- Added `StadiumBorderClipper` to handle `StadiumBorder` as targetShapeBorder.
+
+<br/>
+
 ![Showcaes View - Simform LLC.](https://raw.githubusercontent.com/SimformSolutionsPvtLtd/flutter_showcaseview/master/preview/banner.png)
 
 
