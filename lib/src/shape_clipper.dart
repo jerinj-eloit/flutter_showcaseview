@@ -93,10 +93,10 @@ class StadiumBorderClipper extends CustomClipper<Path> {
   Path getClip(Size size) {
     final Path path = Path();
     final Rect rect = overlayPadding.inflateRect(area);
-    final double r = rect.shortestSide / 2;
+    final double radius = rect.height / 2; // Use height to create the stadium border
     path.fillType = PathFillType.evenOdd;
     path.addRect(Offset.zero & size);
-    path.addRRect(RRect.fromRectAndRadius(rect, Radius.circular(r)));
+    path.addRRect(RRect.fromRectAndRadius(rect, Radius.circular(radius)));
     return path;
   }
 
