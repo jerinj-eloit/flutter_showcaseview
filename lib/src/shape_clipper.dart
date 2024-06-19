@@ -79,18 +79,27 @@ class StadiumBorderClipper extends CustomClipper<Path> {
     required this.overlayPadding,
   });
 
-  @override
+  // @override
+  // Path getClip(Size size) {
+  //   final Rect rect = overlayPadding.inflateRect(area);
+  //   final inner = const StadiumBorder().getInnerPath(rect);
+  //   return Path()
+  //     ..fillType = PathFillType.evenOdd
+  //     ..addRect(Offset.zero & size)
+  //     ..addPath(inner, Offset.zero);
+  // }
+
+   @override
   Path getClip(Size size) {
+    final Path path = Path();
     final Rect rect = overlayPadding.inflateRect(area);
-    final inner = const StadiumBorder().getInnerPath(rect);
-    return Path()
-      ..fillType = PathFillType.evenOdd
-      ..addRect(Offset.zero & size)
-      ..addPath(inner, Offset.zero);
+    final double r = rect.shortestSide / 2;
+    path.fillType = PathFillType.evenOdd;
+    path.addRect(Offset.zero & size);
+    path.addRRect(RRect.fromRectAndRadius(rect, Radius.circular(r)));
+    return path;
   }
 
   @override
-  bool shouldReclip(StadiumBorderClipper oldClipper) {
-    return area != oldClipper.area || overlayPadding != oldClipper.overlayPadding;
-  }
+  bool shouldReclip(CustomClipper<Path> oldClipper) => false;
 }
