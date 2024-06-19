@@ -554,7 +554,12 @@ class _ShowcaseState extends State<Showcase> {
             widget.onBarrierClick?.call();
           },
           child: ClipPath(
-            clipper: RRectClipper(
+            clipper:  widget.targetShapeBorder is StadiumBorder
+            ? StadiumBorderClipper(
+                overlayPadding: _isScrollRunning ? EdgeInsets.zero : widget.targetPadding,
+                area: _isScrollRunning ? Rect.zero : rectBound,
+              )
+            :  RRectClipper(
               area: _isScrollRunning ? Rect.zero : rectBound,
               isCircle: widget.targetShapeBorder is CircleBorder,
               radius: _isScrollRunning

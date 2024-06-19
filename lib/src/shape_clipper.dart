@@ -39,8 +39,7 @@ class RRectClipper extends CustomClipper<ui.Path> {
 
   @override
   ui.Path getClip(ui.Size size) {
-    final customRadius =
-        isCircle ? Radius.circular(area.height) : const Radius.circular(3.0);
+    final customRadius = isCircle ? Radius.circular(area.height) : const Radius.circular(3.0);
 
     final rect = Rect.fromLTRB(
       area.left - overlayPadding.left,
@@ -69,4 +68,28 @@ class RRectClipper extends CustomClipper<ui.Path> {
       radius != oldClipper.radius ||
       overlayPadding != oldClipper.overlayPadding ||
       area != oldClipper.area;
+}
+
+class StadiumBorderClipper extends CustomClipper<Path> {
+  final Rect area;
+  final EdgeInsets overlayPadding;
+
+  StadiumBorderClipper({
+    required this.area,
+    required this.overlayPadding,
+  });
+
+  @override
+  Path getClip(Size size) {
+    final Rect rect = overlayPadding.inflateRect(area);
+    return Path()
+      ..fillType = PathFillType.evenOdd
+      ..addRect(Offset.zero & size)
+      ..addRRect(RRect.fromRectAndRadius(rect, Radius.circular(rect.height / 2)));
+  }
+
+  @override
+  bool shouldReclip(StadiumBorderClipper oldClipper) {
+    return area != oldClipper.area || overlayPadding != oldClipper.overlayPadding;
+  }
 }
