@@ -23,6 +23,7 @@
 import 'dart:ui' as ui;
 
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 
 class RRectClipper extends CustomClipper<ui.Path> {
   final bool isCircle;
@@ -79,25 +80,25 @@ class StadiumBorderClipper extends CustomClipper<Path> {
     required this.overlayPadding,
   });
 
-  // @override
-  // Path getClip(Size size) {
-  //   final Rect rect = overlayPadding.inflateRect(area);
-  //   final inner = const StadiumBorder().getInnerPath(rect);
-  //   return Path()
-  //     ..fillType = PathFillType.evenOdd
-  //     ..addRect(Offset.zero & size)
-  //     ..addPath(inner, Offset.zero);
-  // }
-
-   @override
+  @override
   Path getClip(Size size) {
-    final Path path = Path();
-    final Rect rect = overlayPadding.inflateRect(area);
-    final double radius = rect.height / 2; // Use height to create the stadium border
-    path.fillType = PathFillType.evenOdd;
-    path.addRect(Offset.zero & size);
-    path.addRRect(RRect.fromRectAndRadius(rect, Radius.circular(radius)));
-    return path;
+    final customRadius = Radius.circular(area.height / 2);
+    final rect = Rect.fromLTRB(
+      area.left - overlayPadding.left,
+      area.top+4,
+      area.right + overlayPadding.right,
+      area.bottom-4,
+    );
+
+    return Path()
+      ..fillType = ui.PathFillType.evenOdd
+      ..addRect(Offset.zero & size)
+      ..addRRect(
+        RRect.fromRectAndRadius(
+          rect,
+          customRadius,
+        ),
+      );
   }
 
   @override
