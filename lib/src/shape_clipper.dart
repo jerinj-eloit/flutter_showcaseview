@@ -82,10 +82,11 @@ class StadiumBorderClipper extends CustomClipper<Path> {
   @override
   Path getClip(Size size) {
     final Rect rect = overlayPadding.inflateRect(area);
+    final inner = const StadiumBorder().getInnerPath(rect);
     return Path()
       ..fillType = PathFillType.evenOdd
       ..addRect(Offset.zero & size)
-      ..addRRect(RRect.fromRectAndRadius(rect, Radius.circular(rect.height / 2)));
+      ..addPath(inner, Offset.zero);
   }
 
   @override
